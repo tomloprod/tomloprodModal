@@ -29,9 +29,9 @@ Example of modal window:
 			<span class="tm-XButton tm-closeButton"></span>  
 			<h3>Login</h3> 
 		</div>
-		<div class="tm-content"  style="text-align:center;">
+		<div class="tm-content">
 		
-			<form>
+			<form style="text-align:center;">
 				<p>
 				<input class="tm-emptyOnClose" placeholder="User" required="" type="text">
 				</p>
