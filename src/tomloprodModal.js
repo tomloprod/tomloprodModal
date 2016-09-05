@@ -227,6 +227,7 @@ var TomloprodModal = (function () {
                                 addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "backgroundColor", params[configOption]);
                                 break;
                             case "textColor":
+                                addPropertyValueFromClasses(document.getElementsByClassName("tm-content"), "color", params[configOption]);
                                 addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "color", params[configOption]);
                                 break;
                             case "closeOnOverlay":
