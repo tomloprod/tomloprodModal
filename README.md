@@ -52,6 +52,11 @@ Example of modal window:
 
 <!-- Overlay -->
 <div class="tm-overlay"></div>
+
+<div id="myMainContainer>
+
+</div>
+
 ```
 <br>
 
