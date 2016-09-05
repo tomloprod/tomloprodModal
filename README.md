@@ -2,6 +2,8 @@
 
 **tomloprodModal** is a simple javascript modal library with no dependencies.
 
+
+
 ### DEMO
 ---
 * http://codepen.io/tomloprod/pen/kkYxWY
