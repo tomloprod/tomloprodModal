@@ -8,7 +8,7 @@
 ---
 * http://codepen.io/tomloprod/pen/kkYxWY
 
-
+<br>
 
 ### HTML & CSS Classes
 ---
@@ -53,6 +53,7 @@ Example of modal window:
 <!-- Overlay -->
 <div class="tm-overlay"></div>
 ```
+<br>
 
 ### Initialization
 ---
@@ -66,6 +67,7 @@ TomloprodModal.start({
 });
 ```
 
+<br>
 
 ### Config Parameters
 ---
@@ -81,6 +83,8 @@ TomloprodModal.start({
 * `closeOnEsc`: Enables or disables pressing the escape key to close the currently open modal. @default `true`
 
 Note: No parameter is required.
+
+<br>
 
 ### Miscellaneous
 ---
@@ -101,6 +105,8 @@ var isOpen = TomloprodModal.isOpen;
 //////////// Gets the last modal window that has been shown
 var currentModalWindow = TomloprodModal.modal;
 ```
+
+<br>
 
 ### Handlers
 ---
