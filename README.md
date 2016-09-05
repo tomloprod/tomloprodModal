@@ -2,12 +2,13 @@
 
 **tomloprodModal** is a simple javascript modal library with no dependencies.
 
-## DEMO
-
+### DEMO
+---
 * http://codepen.io/tomloprod/pen/kkYxWY
 
 
-## HTML & CSS Classes
+
+### HTML & CSS Classes
 ---
 
 * `tm-effect`: If has this class shows fade effects on modal windows and scale effect on main container (if exist).
@@ -17,61 +18,54 @@
 Example of modal window:
 
 ````html
-
 <div class="tm-modal tm-effect tm-draggable" id="logInPopUp">
-    <div class="tm-wrapper">
-        <div class="tm-title">
-            <span class="tm-XButton tm-closeButton"></span>  
-            <h3>Login</h3> 
-        </div>
-        <div class="tm-content"  style="text-align:center;">
-
-	   <form>
-	        <p>
-        	     <input class="tm-emptyOnClose" placeholder="User" required="" type="text">
-	        </p>
-
-	        <p>
-        	     <input class="tm-emptyOnClose" placeholder="Password" required="" type="password">
-	        </p>
-
-	        <p>
-	             <input id="remember" name="remember" type="checkbox" value="1">
-	             <label for="remember">Remember me</label>
-	        </p>
-
-	        <p>
-		     <input value="Log in" type="submit">
-		</p>
-            </form>
-
-
-        </div>
-    </div>
+	<div class="tm-wrapper">
+		<div class="tm-title">
+			<span class="tm-XButton tm-closeButton"></span>  
+			<h3>Login</h3> 
+		</div>
+		<div class="tm-content"  style="text-align:center;">
+		
+			<form>
+				<p>
+				<input class="tm-emptyOnClose" placeholder="User" required="" type="text">
+				</p>
+				
+				<p>
+				<input class="tm-emptyOnClose" placeholder="Password" required="" type="password">
+				</p>
+				
+				<p>
+				<input id="remember" name="remember" type="checkbox" value="1">
+				<label for="remember">Remember me</label>
+				</p>
+				
+				<p>
+				<input value="Log in" type="submit">
+				</p>
+			</form>
+		</div>
+	</div>
 </div>
 
 <!-- Overlay -->
 <div class="tm-overlay"></div>
-
 ```
 
-## Initialization
+### Initialization
 ---
 
 ```javascript
-
 TomloprodModal.start({
     closeOut: true,
     showMessages: true,
     bgColor: "#FFFFFF",
     textColor: "#333333"
 });
-
-
 ```
 
 
-## Config Parameters
+### Config Parameters
 ---
 
 * `idMainContainer`: Used to display an scale animation when the modal window opens. (Dynamically add the `tm-MainContainer` class to the element)
@@ -90,7 +84,6 @@ Note: No parameter is required.
 ---
 
 ```javascript
-
 //////////// Stop operation of Tomloprod Modal.
 TomloprodModal.stop();
 
@@ -105,50 +98,39 @@ var isOpen = TomloprodModal.isOpen;
 
 //////////// Gets the last modal window that has been shown
 var currentModalWindow = TomloprodModal.modal;
-
-
-
-
 ```
 
-## Handlers
+### Handlers
 ---
 
 
 ```javascript
 
-#Opening
+///////////// Opening
 TomloprodModal.registerHandler("opened", function () {
     console.info("Opening " + TomloprodModal.modal.id);
 });
 
-#Closing
+///////////// Closing
 TomloprodModal.registerHandler("closed", function () {
     console.info("Closing " + TomloprodModal.modal.id);
 });
 
-#Stop dragging
+///////////// Stop dragging
 TomloprodModal.registerHandler("stopDragging", function () {
     console.info("Coord X: " + TomloprodModal.modal.style.left + ' | Coord Y: ' + TomloprodModal.modal.style.top);
 });
 
-#Register and remove handlers
-
-
+///////////// Register and remove handlers
 TomloprodModal.registerHandler("opened", myOpenedHandler);
 
 function myOpenedHandler(){
      console.info("Opening " + TomloprodModal.modal.id);
 }
 
-
 //////////// Deletes the listener of the indicated handler.
 TomloprodModal.removeHandler('opened', myOpenedHandler);
 
 /////////// Or, if the handler is omitted, deletes all:
-
 TomloprodModal.removeHandler('opened');
-
-
 ```
-
