@@ -6,9 +6,6 @@
 
 <img src="https://github.com/tomloprod/tomloprodModal/blob/master/tomloprodModal.gif" width="450"/>
 
-
-<br>
-
 ### DEMO
 ---
 * http://codepen.io/tomloprod/pen/kkYxWY
