@@ -1,5 +1,7 @@
 # tomloprodModal
 
+<br>
+
 **tomloprodModal** is a simple and configurable javascript library to create responsive modal windows with no dependencies.
 
 <br>
@@ -13,9 +15,10 @@
 ### HTML & CSS Classes
 ---
 
-* `tm-effect`: If has this class shows fade effects on modal windows and scale effect on main container (if exist).
+* `tm-effect`: If has this class shows fade effects on modal windows and scale effect on main container (*if exist*).
 * `tm-draggable`: Defines if the modal window can be dragged.
-* `tm-emptyOnClose`: When has this CSS class, the content of this element (input or tag) will be cleared.
+* `tm-emptyOnClose`: When has this CSS class, the content of this element (*input or tag*) will be cleared.
+
 
 Example of modal window:
 
@@ -87,7 +90,7 @@ TomloprodModal.start({
 * `removeOverlay`: When `true`, remove the overlay if exist. @default `false`
 * `closeOnEsc`: Enables or disables pressing the escape key to close the currently open modal. @default `true`
 
-Note: No parameter is required.
+*Note: No parameter is required.*
 
 <br>
 
