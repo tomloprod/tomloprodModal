@@ -264,13 +264,13 @@ var TomloprodModal = (function () {
             var aHrefs = document.getElementsByTagName("A");
             for (var x = 0; x < aHrefs.length; x++) {
                 var el = aHrefs[x];
-                el.onclick = function (event) {
-                    event = event || window.event;
-                    if (hasClass(this, 'tm-trigger')) {
-                        TomloprodModal.openModal(this.getAttribute('data-tm-modal'));
-                        event.preventDefault();
-                    }
-                };
+                if (hasClass(el, 'tm-trigger')) {
+                  el.onclick = function (event) {
+                      event = event || window.event;
+                      TomloprodModal.openModal(this.getAttribute('data-tm-modal'));
+                      event.preventDefault();
+                  };
+                }
             }
         },
         stop: function () {
