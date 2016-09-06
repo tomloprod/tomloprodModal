@@ -89,6 +89,9 @@ TomloprodModal.start({
 * `showMessages`: Enables or disables de log messages. @default `false`
 * `removeOverlay`: When `true`, remove the overlay if exist. @default `false`
 * `closeOnEsc`: Enables or disables pressing the escape key to close the currently open modal. @default `true`
+* `borderRadius`: Assign a border-radius to the modal windows. @example `1em` @default `0`
+
+borderRadius
 
 *Note: No parameter is required.*
 
