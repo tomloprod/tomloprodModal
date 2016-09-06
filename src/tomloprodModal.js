@@ -226,6 +226,11 @@ var TomloprodModal = (function () {
                             case "bgColor":
                                 addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "backgroundColor", params[configOption]);
                                 break;
+                            case "borderRadius":
+                                addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "-webkit-border-radius", params[configOption]);
+                                addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "-moz-border-radius", params[configOption]);
+                                addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "border-radius", params[configOption]);
+                                break;
                             case "textColor":
                                 addPropertyValueFromClasses(document.getElementsByClassName("tm-content"), "color", params[configOption]);
                                 addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "color", params[configOption]);
