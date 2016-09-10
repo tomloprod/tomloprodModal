@@ -99,11 +99,11 @@ TomloprodModal.start({
 ### Individual Config Parameters (*data attributes*)
 ---
 
-* data-tm-title: Will replace the title of the element with `tm-title-text` class.
-* data-tm-content: Will replace the content of the element with `tm-content` class.
-* data-tm-bgcolor: Will change the background color by the indicated value for the modal window that has this data attribute. @example `#e74c3c`
-* data-tm-textcolor: Will change the text color by the indicated value for the modal window that has this data attribute. @example `#FFFFFF`
-* data-tm-closetimer: Will close the modal window when the milliseconds pass. @example `1000`
+* `data-tm-title`: Will replace the title of the element with `tm-title-text` class.
+* `data-tm-content`: Will replace the content of the element with `tm-content` class.
+* `data-tm-bgcolor`: Will change the background color by the indicated value for the modal window that has this data attribute. @example `#e74c3c`
+* `data-tm-textcolor`: Will change the text color by the indicated value for the modal window that has this data attribute. @example `#FFFFFF`
+* `data-tm-closetimer`: Will close the modal window when the milliseconds pass. @example `1000`
 
 <br>
 
