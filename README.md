@@ -123,7 +123,7 @@ TomloprodModal.closeModal();
 //////////// Check if there are any open modal window
 var isOpen = TomloprodModal.isOpen;
 
-//////////// Gets the last modal window that has been shown
+//////////// Gets the current modal window
 var currentModalWindow = TomloprodModal.modal;
 ```
 

@@ -393,7 +393,7 @@ var TomloprodModal = (function () {
          * @param {Object} modal
          */
         stopDragging: function (modal) {
-			if(modal !== undefined){
+			if(modal.style !== undefined){
 				modal.style.cursor = 'default';
 				removeClass(document.getElementsByTagName("body")[0], 'tm-avoidSelection');
 				removeClass(TomloprodModal.modal, 'tm-avoidSelection');
