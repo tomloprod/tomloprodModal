@@ -1,5 +1,5 @@
 /*
- Tomloprod Modal 1.0.0
+ Tomloprod Modal 1.0.1
  
  The MIT License (MIT)
  
@@ -23,16 +23,18 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-
+ 
 var TomloprodModal = (function () {
     "use strict";
     var closeButton = null,
             closeOnEsc = true,
             draggable = true,
             closeOnOverlay = false,
+			removeOverlay = false,
             handlers = {},
+			mainContainer = [],
             showMessages = false,
-            cssAvoidSelection = ".tm-avoidSelection{-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}";
+			closeTimeout = null;
     /**
      * Adds the value to the specified property to a set of elements.
      * @param {Objects[]} els
@@ -43,20 +45,6 @@ var TomloprodModal = (function () {
         [].forEach.call(els, function (el) {
             el.style[propiedad] = valor;
         });
-    }
-    /**
-     * Add css block to the head.
-     * @param {String} css
-     */
-    function addCSS(css) {
-        var head = document.head || document.getElementsByTagName('head')[0], style_Block = document.createElement('style');
-        style_Block.type = 'text/css';
-        if (style_Block.styleSheet) {
-            style_Block.styleSheet.cssText = css;
-        } else {
-            style_Block.appendChild(document.createTextNode(css));
-        }
-        head.appendChild(style_Block);
     }
     /**
      * Checks whether the element contains the specified class.
@@ -107,7 +95,9 @@ var TomloprodModal = (function () {
         if (event.classList) {
             event.classList.remove(className);
         } else {
-            event.className = event.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+			if(event.className !== undefined){
+				event.className = event.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+			}
         }
     }
     /**
@@ -132,7 +122,16 @@ var TomloprodModal = (function () {
             TomloprodModal.closeModal();
         }
     }
-
+	function openOnClick(element, event){
+		if (element !== undefined) {		
+			if(TomloprodModal.modal.id === element.target.getAttribute('data-tm-modal')){
+				TomloprodModal.closeModal();
+			}else{
+				TomloprodModal.openModal(element.target.getAttribute('data-tm-modal'));
+			}
+			event.preventDefault();
+		}
+	}
     return {
         modal: [],
         isOpen: false,
@@ -142,6 +141,39 @@ var TomloprodModal = (function () {
             }
             TomloprodModal.modal = document.getElementById(isModal);
             if (TomloprodModal.modal) {
+			
+				if(mainContainer){
+					addClass(mainContainer, "tm-effect");
+				}
+				
+				//////////// Individual configuration (data attributes)
+				var attr = null;
+				for (var i = 0; i < TomloprodModal.modal.attributes.length; i++) {
+					attr = TomloprodModal.modal.attributes[i];
+					// If attribute nodeName starts with 'data-'
+					if (/^data-/.test(attr.nodeName)) {
+						switch(attr.nodeName){
+							case "data-tm-content": 
+								TomloprodModal.modal.getElementsByClassName('tm-content')[0].innerHTML = attr.nodeValue; 
+							break;
+							case "data-tm-title": 
+								TomloprodModal.modal.getElementsByClassName('tm-title-text')[0].innerHTML = attr.nodeValue; 
+							break;
+							case "data-tm-bgcolor":
+								addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-wrapper"), "backgroundColor", attr.nodeValue);
+							break;
+							case "data-tm-textcolor":
+								addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-content"), "color", attr.nodeValue);
+                                addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-wrapper"), "color", attr.nodeValue);
+							break;		
+
+							case "data-tm-closetimer":
+								closeTimeout = setTimeout(TomloprodModal.closeModal, attr.nodeValue);
+							break;					
+							
+						}
+					}
+				}					
                 if (draggable && hasClass(TomloprodModal.modal, "tm-draggable")) {
                     TomloprodModal.modal.setAttribute('onmousedown', 'TomloprodModal.startDragging(this,event);');
                     TomloprodModal.modal.setAttribute('onmouseup', 'TomloprodModal.stopDragging(this);');
@@ -149,7 +181,7 @@ var TomloprodModal = (function () {
                 addClass(TomloprodModal.modal, 'tm-showModal');
                 closeButton = TomloprodModal.modal.querySelector('.tm-closeButton');
                 closeButton.addEventListener('click', TomloprodModal.closeModal, false);
-                if (closeOnOverlay) {
+                if (closeOnOverlay && !removeOverlay) {
                     document.querySelector(".tm-overlay").addEventListener('click', TomloprodModal.closeModal, false);
                 }
                 if (closeOnEsc) {
@@ -204,7 +236,7 @@ var TomloprodModal = (function () {
         fire: function (event) {
             if (!handlers[event]) {
                 if (showMessages) {
-                    console.info("TomloprodModal: There aren't any handlers registered with that name.");
+                    console.info("TomloprodModal: There aren't any handlers registered for ''" + event + "''");
                 }
                 return false;
             }
@@ -213,8 +245,12 @@ var TomloprodModal = (function () {
                 handlers[event][i].apply(window, Array.prototype.slice.call(arguments, 1));
             }
         },
+		
         start: function (params) {
-            addCSS(cssAvoidSelection);
+			
+			//////////// Create overlay
+			document.body.innerHTML += '<div class="tm-overlay"></div>';
+			
             var configOption = null;
             if (params !== undefined) {
                 for (configOption in params) {
@@ -243,6 +279,7 @@ var TomloprodModal = (function () {
                                 break;
                             case "removeOverlay":
                                 if (params[configOption]) {
+									removeOverlay = params[configOption];
                                     document.querySelector(".tm-overlay").parentNode.removeChild(document.querySelector(".tm-overlay"));
                                 }
                                 break;
@@ -253,8 +290,10 @@ var TomloprodModal = (function () {
                                 closeOnEsc = params[configOption];
                                 break;
                             case "idMainContainer":
-                                addClass(document.getElementById(params[configOption]), "tm-MainContainer");
+								mainContainer = document.getElementById(params[configOption]);
+                                addClass(mainContainer, "tm-MainContainer");
                                 break;
+							
                         }
                     }
                 }
@@ -262,22 +301,19 @@ var TomloprodModal = (function () {
             document.onclick = function (event) {
                 event = event || window.event;
                 if (hasClass(event.target, 'tm-trigger')) {
-                    TomloprodModal.openModal(event.target.getAttribute('data-tm-modal'));
-                    event.preventDefault();
+					openOnClick(event, event);
                 }
             };
             var aHrefs = document.getElementsByTagName("A");
             for (var x = 0; x < aHrefs.length; x++) {
                 var el = aHrefs[x];
                 if (hasClass(el, 'tm-trigger')) {
-                  el.onclick = function (event) {
-                      event = event || window.event;
-                      TomloprodModal.openModal(this.getAttribute('data-tm-modal'));
-                      event.preventDefault();
-                  };
+				  var event = event || window.event;
+				  el.onclick = openOnClick.bind(el, event);
                 }
             }
         },
+		
         stop: function () {
             document.onclick = null;
             var aHrefs = document.getElementsByTagName("A");
@@ -290,17 +326,23 @@ var TomloprodModal = (function () {
             if (event !== undefined) {
                 event.stopPropagation();
             }
+			
+			window.clearTimeout(closeTimeout);
+			removeClass(mainContainer, 'tm-effect');
             removeClass(TomloprodModal.modal, 'tm-showModal');
             closeButton.removeEventListener('click', TomloprodModal.closeModal, false);
-            var inputs_Text = TomloprodModal.modal.querySelectorAll('.tm-emptyOnClose'), conta = 0;
-            for (conta = 0; conta < inputs_Text.length; conta += 1) {
-                if (inputs_Text[conta].tagName === "INPUT") {
-                    inputs_Text[conta].value = "";
-                } else {
-                    inputs_Text[conta].innerHTML = "";
-                }
-            }
-
+			if(TomloprodModal.isOpen){
+				var inputsText = TomloprodModal.modal.querySelectorAll('.tm-emptyOnClose'), conta = 0;
+				for (conta = 0; conta < inputsText.length; conta += 1) {
+					if (inputsText[conta].tagName === "INPUT") {
+						inputsText[conta].value = "";
+					} else {
+						inputsText[conta].innerHTML = "";
+					}
+				}
+			}
+			TomloprodModal.stopDragging(TomloprodModal.modal);
+			TomloprodModal.modal = [];
             TomloprodModal.isOpen = false;
             TomloprodModal.fire("closed");
         },
@@ -351,12 +393,14 @@ var TomloprodModal = (function () {
          * @param {Object} modal
          */
         stopDragging: function (modal) {
-            modal.style.cursor = 'default';
-            removeClass(document.getElementsByTagName("body")[0], 'tm-avoidSelection');
-            removeClass(TomloprodModal.modal, 'tm-avoidSelection');
-            TomloprodModal.fire('stopDragging');
-            document.onmousemove = function () {
-            };
+			if(modal !== undefined){
+				modal.style.cursor = 'default';
+				removeClass(document.getElementsByTagName("body")[0], 'tm-avoidSelection');
+				removeClass(TomloprodModal.modal, 'tm-avoidSelection');
+				TomloprodModal.fire('stopDragging');
+				document.onmousemove = function () { };
+			}
         }
     };
 }());
+

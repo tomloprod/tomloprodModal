@@ -1,0 +1,24 @@
+{
+  "name": "tomloprodModal",
+  "description": "a simple and configurable pure javascript library to create responsive and minimalist modal windows with no dependencies",
+  "author": "Tomas Lopez",
+  "version": "1.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomloprod/tomloprodModal.git"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-banner": "^0.6.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "jshint": "^2.9.3"
+  },
+  "scripts": {
+    "test": "grunt --verbose"
+  },
+  "readmeFilename": "README.md"
+}

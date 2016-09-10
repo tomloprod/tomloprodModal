@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8">
+        <title>tomloprodModal Test</title>
+        <script src="../src/tomloprodModal.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link href="../src/tomloprodModal.css" media="all" rel="stylesheet" />
+
+		
+        <style type="text/css">
+					
+			.btn {
+			 opacity:0.8;
+			  border:0;
+			  -webkit-border-radius: 28;
+			  -moz-border-radius: 28;
+			  border-radius: 28px;
+			  font-family: Arial;
+			  color: #ffffff;
+			  font-size: 37px;
+			  padding: 10px 20px 10px 20px;
+			  text-decoration: none;
+			  outline:0;
+			  margin: 0em 0 1em 0;
+		      display: -webkit-inline-box;
+			}
+			.btn.default{
+				background:#FFF;
+				color: #5c7d98;
+				border: 1px solid #5c7d98;
+			}
+			.btn.red{
+				background:#e74c3c;
+			}
+			.btn.blue{
+				background:#3498db;
+			}
+			.btn.green{
+				background:#2ecc71;
+			}
+			.btn:hover {
+		      cursor:pointer;
+			  opacity:1;
+	
+			  text-decoration: none;
+			}
+			h1{
+				color: #5c7d98;
+				font-size: 3em;
+				margin: 1em 0 2em 0;
+			}
+			img{
+			  -moz-user-select: none;
+			  -webkit-user-select: none;
+			  -ms-user-select: none;
+			  user-select: none;
+			  -webkit-user-drag: none;
+			  user-drag: none;
+			  -webkit-touch-callout: none;
+			}
+			#myMainContainer{
+				text-align: center;
+			}
+        </style>
+		
+    </head>
+
+    <body>
+	
+			<!-- //////////// Main container -->
+			<div id="myMainContainer">
+			
+				<h1>tomloprodModal</h1>
+			
+			  <a href="#" data-tm-modal="testModal0" class="tm-trigger btn default">Open Modal 0</a>	
+			  <a href="#" data-tm-modal="testModal1" class="tm-trigger btn red">Open Modal 1</a>
+			  <a href="#" data-tm-modal="testModal2" class="tm-trigger btn blue">Open Modal 2</a>
+			  <a href="#" data-tm-modal="testModal3" class="tm-trigger btn green">Open Modal 3</a>
+			  
+			  <p>
+				<img width="300" src="http://static.ddmcdn.com/gif/4--animal-selfies--151222.jpg"/>
+			  </p>
+			</div>
+			
+			
+			<!-- //////////// Example 0 default modal window -->
+			<div 
+				data-tm-title="tomloprodModal 0" 
+				data-tm-content="My background and text color is the default :-)" 
+				class="tm-modal tm-effect tm-draggable" 
+				id="testModal0">
+					<div class="tm-wrapper">
+						<div class="tm-title">
+							<span class="tm-XButton tm-closeButton"></span>  
+							<h3 class="tm-title-text"></h3> 
+						</div>
+						<div class="tm-content">
+						</div>
+					</div>
+			</div>
+			
+			<!-- //////////// Example 1 red modal window -->
+			<div 
+				data-tm-title="tomloprodModal 1" 
+				data-tm-bgcolor = "#e74c3c"
+				data-tm-textcolor = "white"
+				data-tm-closetimer="3000"
+				data-tm-content="My background color is red! :-) <p><b>And I will self-destruct in 3 seconds</b>" 
+				class="tm-modal tm-effect tm-draggable" 
+				id="testModal1">
+					<div class="tm-wrapper">
+						<div class="tm-title">
+							<span class="tm-XButton tm-closeButton"></span>  
+							<h3 class="tm-title-text"></h3> 
+						</div>
+						<div class="tm-content">
+						</div>
+					</div>
+			</div>
+			
+			<!-- //////////// Example 2 blue modal window -->
+			<div 
+				data-tm-title="tomloprodModal 2" 
+				data-tm-bgcolor = "#3498db"
+				data-tm-textcolor = "white"
+				data-tm-content="My background color is blue! :-)" 
+				class="tm-modal tm-effect tm-draggable" 
+				id="testModal2">
+					<div class="tm-wrapper">
+						<div class="tm-title">
+							<span class="tm-XButton tm-closeButton"></span>  
+							<h3 class="tm-title-text"></h3> 
+						</div>
+						<div class="tm-content">
+						</div>
+					</div>
+			</div>
+			
+			<!-- //////////// Example 3 green modal window -->
+			<div 
+				data-tm-title="tomloprodModal 3" 
+				data-tm-bgcolor = "#2ecc71"
+				data-tm-textcolor = "white"
+				data-tm-content="My background color is green! :-)" 
+				class="tm-modal tm-effect tm-draggable" 
+				id="testModal3">
+					<div class="tm-wrapper">
+						<div class="tm-title">
+							<span class="tm-XButton tm-closeButton"></span>  
+							<h3 class="tm-title-text"></h3> 
+						</div>
+						<div class="tm-content">
+						</div>
+					</div>
+			</div>
+
+
+		<script>
+		
+		TomloprodModal.start({
+			closeOnOverlay: true,
+			/*removeOverlay:true,*/
+			/*showMessages: true,*/
+			/*bgColor: "#FFFFFF",
+			textColor: "#333333",*/
+			idMainContainer: "myMainContainer"
+		});
+		
+		</script>
+		
+    </body>
+</html>
