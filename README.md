@@ -23,11 +23,17 @@
 Example of modal window:
 
 ````html
-<div class="tm-modal tm-effect tm-draggable" id="logInPopUp">
+<div 
+	class="tm-modal 
+	tm-effect tm-draggable" 
+	data-tm-bgcolor = "#3498db"
+	data-tm-textcolor = "white"
+	id="logInPopUp">
+	
 	<div class="tm-wrapper">
 		<div class="tm-title">
 			<span class="tm-XButton tm-closeButton"></span>  
-			<h3>Login</h3> 
+			<h3 class="tm-title-text">Login</h3> 
 		</div>
 		<div class="tm-content">
 		
@@ -53,9 +59,6 @@ Example of modal window:
 	</div>
 </div>
 
-<!-- Overlay -->
-<div class="tm-overlay"></div>
-
 <div id="myMainContainer>
 
 </div>
@@ -77,7 +80,7 @@ TomloprodModal.start({
 
 <br>
 
-### Config Parameters
+### General Config Parameters
 ---
 
 * `idMainContainer`: Used to display an scale animation when the modal window opens. (Dynamically add the `tm-MainContainer` class to the element)
@@ -85,13 +88,22 @@ TomloprodModal.start({
 * `bgColor`: Defines modal background color. @default `#5c7d98`
 * `overlayColor`: Defines overlay color. @default `rgba(0,0,0,0.8)`
 * `textColor`: Defines text and X button color. @default `#FFFFFF`
-* `closeOnOverlay`: Enables or disables closing the modal window by clicking the overlay. @default `false`
+* `closeOnOverlay`: Enables or disables closing the modal window by clicking the overlay. @default `true`
 * `showMessages`: Enables or disables de log messages. @default `false`
 * `removeOverlay`: When `true`, remove the overlay if exist. @default `false`
 * `closeOnEsc`: Enables or disables pressing the escape key to close the currently open modal. @default `true`
 * `borderRadius`: Assign a border-radius to the modal windows. @example `1em` @default `0`
 
-*Note: No parameter is required.*
+<br>
+
+### Individual Config Parameters (*data attributes*)
+---
+
+* data-tm-title: Will replace the title of the element with `tm-title-text` class.
+* data-tm-content: Will replace the content of the element with `tm-content` class.
+* data-tm-bgcolor: Will change the background color by the indicated value for the modal window that has this data attribute. @example `#e74c3c`
+* data-tm-textcolor: Will change the text color by the indicated value for the modal window that has this data attribute. @example `#FFFFFF`
+* data-tm-closetimer: Will close the modal window when the milliseconds pass. @example `1000`
 
 <br>
 
