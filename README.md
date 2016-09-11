@@ -3,8 +3,9 @@
 <br>
 
 **tomloprodModal** is a simple and configurable javascript library to create responsive and minimalist modal windows with no dependencies.
-
+<p align="center">
 <img src="https://github.com/tomloprod/tomloprodModal/blob/master/tomloprodModal-test.gif" width="550"/>
+</p>
 
 ### DEMO
 ---
