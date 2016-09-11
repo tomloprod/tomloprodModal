@@ -1,4 +1,4 @@
-# tomloprodModal [![Build Status](https://travis-ci.org/tomloprod/tomloprodModal.svg?branch=master)](https://travis-ci.org/tomloprod/tomloprodModal) [![Bower version](https://badge.fury.io/bo/tomloprodModal.svg)](http://badge.fury.io/bo/tomloprodModal)
+# tomloprodModal [![Release](https://img.shields.io/github/release/tomloprod/tomloprodModal.svg)](https://travis-ci.org/tomloprod/tomloprodModal) [![Build Status](https://travis-ci.org/tomloprod/tomloprodModal.svg?branch=master)](https://travis-ci.org/tomloprod/tomloprodModal) [![Bower version](https://badge.fury.io/bo/tomloprodModal.svg)](http://badge.fury.io/bo/tomloprodModal)
 
 <br>
 
