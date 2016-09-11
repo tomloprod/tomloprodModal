@@ -7,9 +7,7 @@
 <img src="https://github.com/tomloprod/tomloprodModal/blob/master/tomloprodModal-test.gif"/>
 </p>
 
-### DEMO
----
-* http://codepen.io/tomloprod/pen/kkYxWY
+**DEMO:** http://codepen.io/tomloprod/pen/kkYxWY
 
 <br>
 
