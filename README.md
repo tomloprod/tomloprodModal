@@ -37,47 +37,41 @@ Example of modal window:
 			<h3 class="tm-title-text">Login</h3> 
 		</div>
 		<div class="tm-content">
-		
 			<form style="text-align:center;">
 				<p>
-				<input class="tm-emptyOnClose" placeholder="User" required="" type="text">
+					<input class="tm-emptyOnClose" placeholder="User" required="" type="text">
 				</p>
-				
 				<p>
-				<input class="tm-emptyOnClose" placeholder="Password" required="" type="password">
+					<input class="tm-emptyOnClose" placeholder="Password" required="" type="password">
 				</p>
-				
 				<p>
-				<input id="remember" name="remember" type="checkbox" value="1">
-				<label for="remember">Remember me</label>
+					<input id="remember" name="remember" type="checkbox" value="1">
+					<label for="remember">Remember me</label>
 				</p>
-				
 				<p>
-				<input value="Log in" type="submit">
+					<input value="Log in" type="submit">
 				</p>
 			</form>
 		</div>
 	</div>
 </div>
 
-<div id="myMainContainer>
+<div id="myMainContainer"> Lorem ipsum... </div>
 
-</div>
-
-```
+````
 <br>
 
 ### Initialization
 ---
 
-```javascript
+````javascript
 TomloprodModal.start({
     closeOut: true,
     showMessages: true,
     bgColor: "#FFFFFF",
     textColor: "#333333"
 });
-```
+````
 
 <br>
 
@@ -106,12 +100,36 @@ TomloprodModal.start({
 * `data-tm-textcolor`: Will change the text color by the indicated value for the modal window that has this data attribute. @example `#FFFFFF`
 * `data-tm-closetimer`: Will close the modal window when the milliseconds pass. @example `1000`
 
+Example of modal window with individual parameters:
+
+````html
+<div 
+    data-tm-title="tomloprodModal 1" 
+    data-tm-bgcolor = "#e74c3c"
+    data-tm-textcolor = "white"
+    data-tm-closetimer="3000"
+    data-tm-content="My background color is red! :-) <p><b>And I will self-destruct in 3 seconds</b>" 
+    class="tm-modal tm-effect tm-draggable" 
+    id="testModal1">
+    
+    <div class="tm-wrapper">
+        <div class="tm-title">
+            <span class="tm-XButton tm-closeButton"></span>  
+            <h3 class="tm-title-text"> </h3> 
+        </div>
+        <div class="tm-content"> </div>
+    </div>
+    
+</div>
+
+<div id="myMainContainer"> Lorem ipsum... </div>
+````
 <br>
 
 ### Miscellaneous
 ---
 
-```javascript
+````javascript
 //////////// Stop operation of Tomloprod Modal.
 TomloprodModal.stop();
 
@@ -126,7 +144,7 @@ var isOpen = TomloprodModal.isOpen;
 
 //////////// Gets the current modal window
 var currentModalWindow = TomloprodModal.modal;
-```
+````
 
 <br>
 
@@ -134,8 +152,7 @@ var currentModalWindow = TomloprodModal.modal;
 ---
 
 
-```javascript
-
+````javascript
 ///////////// Opening
 TomloprodModal.registerHandler("opened", function () {
     console.info("Opening " + TomloprodModal.modal.id);
@@ -163,4 +180,4 @@ TomloprodModal.removeHandler('opened', myOpenedHandler);
 
 /////////// Or, if the handler is omitted, deletes all:
 TomloprodModal.removeHandler('opened');
-```
+````
