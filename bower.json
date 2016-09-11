@@ -1,0 +1,23 @@
+{
+    "name": "tomloprodModal",
+    "version": "1.0.1",
+    "homepage": "https://github.com/tomloprod/tomloprodModal",
+    "authors": [
+        "Tomás López"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/tomloprod/tomloprodModal.git"
+    },
+    "dependencies": {},
+    "description": "a simple and configurable pure javascript library to create responsive and minimalist modal windows with no dependencies",
+    "main": "src/tomloprodModal.js",
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+}
