@@ -58,6 +58,23 @@ var TomloprodModal = (function () {
         }
         return new RegExp('(^| )' + className + '( |$)', 'gi').test(event.className);
     }
+	/**
+     * Find parent with data-tm-modal
+     * @param {Event.target} element
+     * @returns {Object}
+     */
+	function findParentWithDataModal(elem) {
+		try {
+			if(elem.getAttribute('data-tm-modal')){
+				return elem;
+			}
+		} catch(e) {
+			return e;
+		}
+		while(!elem.getAttribute('data-tm-modal')) {
+			return findParentWithDataModal(elem.parentNode);
+		}
+	}
     /**
      * Add a class to the element indicated.
      * @param {Event.target} event
@@ -114,7 +131,6 @@ var TomloprodModal = (function () {
             console.info("TomloprodModal: Dragging. Coord X: " + coordX + 'px | Coord Y: ' + coordY + 'px');
         }
     }
-
     function getKey(event) {
         event = event || window.event;
         //////////// Esc
@@ -122,14 +138,16 @@ var TomloprodModal = (function () {
             TomloprodModal.closeModal();
         }
     }
-	function openOnClick(element, event){
-		if (element !== undefined) {		
-			if(TomloprodModal.modal.id === element.target.getAttribute('data-tm-modal')){
-				TomloprodModal.closeModal();
-			}else{
-				TomloprodModal.openModal(element.target.getAttribute('data-tm-modal'));
+	function openOnClick(e){
+	    if (e.target === document.body){ 
+			return;
+		}
+	    var elem = findParentWithDataModal(e.target);	
+		if (elem instanceof Element && hasClass(elem, 'tm-trigger')) {
+			if(elem !== undefined){
+				TomloprodModal.openModal(elem.getAttribute('data-tm-modal'));
+				e.preventDefault();
 			}
-			event.preventDefault();
 		}
 	}
     return {
@@ -298,20 +316,13 @@ var TomloprodModal = (function () {
                     }
                 }
             }
-            document.onclick = function (event) {
-                event = event || window.event;
-                if (hasClass(event.target, 'tm-trigger')) {
-					openOnClick(event, event);
-                }
-            };
-            var aHrefs = document.getElementsByTagName("A");
-            for (var x = 0; x < aHrefs.length; x++) {
-                var el = aHrefs[x];
-                if (hasClass(el, 'tm-trigger')) {
-				  var event = event || window.event;
-				  el.onclick = openOnClick.bind(el, event);
-                }
-            }
+		    //////////// For all major browsers, except IE 8 and earlier
+		    if (document.addEventListener) {                
+				document.addEventListener("click", openOnClick);
+				//////////// For IE 8 and earlier versions
+		    } else if (document.attachEvent) {         
+				document.attachEvent("onclick", openOnClick);
+		    }
         },
 		
         stop: function () {
