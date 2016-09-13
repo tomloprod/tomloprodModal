@@ -198,9 +198,19 @@ var TomloprodModal = (function () {
                 }
                 addClass(TomloprodModal.modal, 'tm-showModal');
                 closeButton = TomloprodModal.modal.querySelector('.tm-closeButton');
-                closeButton.addEventListener('click', TomloprodModal.closeModal, false);
+				
+			    if (closeButton.addEventListener) {                
+					closeButton.addEventListener("click", TomloprodModal.closeModal, false);
+				} else if (closeButton.attachEvent) {         
+					closeButton.attachEvent("onclick", TomloprodModal.closeModal);
+				}
+				
                 if (closeOnOverlay && !removeOverlay) {
-                    document.querySelector(".tm-overlay").addEventListener('click', TomloprodModal.closeModal, false);
+					if (document.querySelector(".tm-overlay").addEventListener) {                
+						document.querySelector(".tm-overlay").addEventListener("click", TomloprodModal.closeModal, false);
+					} else if (document.querySelector(".tm-overlay").attachEvent) {         
+						document.querySelector(".tm-overlay").attachEvent("onclick", TomloprodModal.closeModal);
+					}
                 }
                 if (closeOnEsc) {
                     document.onkeyup = getKey;
@@ -266,8 +276,10 @@ var TomloprodModal = (function () {
 		
         start: function (params) {
 			
-			//////////// Create overlay
-			document.body.innerHTML += '<div class="tm-overlay"></div>';
+			//////////// Create modal overlay
+			var overlay = document.createElement("DIV");
+            overlay.className = "tm-overlay";
+            document.body.appendChild(overlay);
 			
             var configOption = null;
             if (params !== undefined) {
