@@ -112,7 +112,7 @@ var TomloprodModal = (function () {
         if (event.classList) {
             event.classList.remove(className);
         } else {
-			if(event.className !== undefined){
+			if(typeof event.className !== "undefined"){
 				event.className = event.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
 			}
         }
@@ -144,7 +144,7 @@ var TomloprodModal = (function () {
 		}
 	    var elem = findParentWithDataModal(e.target);	
 		if (elem instanceof Element && hasClass(elem, 'tm-trigger')) {
-			if(elem !== undefined){
+			if(typeof elem !== "undefined"){
 				TomloprodModal.openModal(elem.getAttribute('data-tm-modal'));
 				e.preventDefault();
 			}
@@ -282,9 +282,9 @@ var TomloprodModal = (function () {
             document.body.appendChild(overlay);
 			
             var configOption = null;
-            if (params !== undefined) {
+            if (typeof params !== "undefined") {
                 for (configOption in params) {
-                    if (params[configOption] !== undefined) {
+                    if (typeof params[configOption] !== "undefined") {
                         switch (configOption) {
                             case "draggable":
                                 draggable = params[configOption];
@@ -346,7 +346,7 @@ var TomloprodModal = (function () {
             }
         },
         closeModal: function (event) {
-            if (event !== undefined) {
+            if (typeof event !== "undefined") {
                 event.stopPropagation();
             }
 			
@@ -416,7 +416,7 @@ var TomloprodModal = (function () {
          * @param {Object} modal
          */
         stopDragging: function (modal) {
-			if(modal.style !== undefined){
+			if(typeof modal.style !== "undefined"){
 				modal.style.cursor = 'default';
 				removeClass(document.getElementsByTagName("body")[0], 'tm-avoidSelection');
 				removeClass(TomloprodModal.modal, 'tm-avoidSelection');
