@@ -190,6 +190,11 @@ var TomloprodModal = (function () {
 							case "title":
 								TomloprodModal.modal.getElementsByClassName('tm-title-text')[0].innerHTML = params[configOption]; 
 							break;
+							case "borderRadius":
+								addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "-webkit-border-radius", params[configOption]);
+								addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "-moz-border-radius", params[configOption]);
+								addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "border-radius", params[configOption]);
+							break;
 							case "content":
 								TomloprodModal.modal.getElementsByClassName('tm-content')[0].innerHTML = params[configOption]; 
 							break;
