@@ -342,7 +342,8 @@ var TomloprodModal = (function () {
 						var defaultModalContent = document.createElement("DIV");
 						defaultModalContent.className = "tm-content";
 						defaultModalWrapper.appendChild(defaultModalContent);
-				document.body.appendChild(defaultModalWindow);
+						
+						document.body.insertBefore(defaultModalWindow, document.body.firstChild);
 			}
 		
 			TomloprodModal.openModal(uniqueName, params);
@@ -350,17 +351,12 @@ var TomloprodModal = (function () {
 		},
 		
         start: function (params) {
-		
-		
-			
+					
 			//////////// Create modal overlay
 			var overlay = document.createElement("DIV");
             overlay.className = "tm-overlay";
             document.body.appendChild(overlay);
-			
-			
-						
-            
+		
 			//////////// Apply parameters
             var configOption = null;
 			if (typeof params !== "undefined") {
