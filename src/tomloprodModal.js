@@ -34,7 +34,8 @@ var TomloprodModal = (function () {
             handlers = {},
 			mainContainer = [],
             showMessages = false,
-			closeTimeout = null;
+			closeTimeout = null,
+			uniqueName = null;
     /**
      * Adds the value to the specified property to a set of elements.
      * @param {Objects[]} els
@@ -131,6 +132,7 @@ var TomloprodModal = (function () {
             console.info("TomloprodModal: Dragging. Coord X: " + coordX + 'px | Coord Y: ' + coordY + 'px');
         }
     }
+	
     function getKey(event) {
         event = event || window.event;
         //////////// Esc
@@ -150,76 +152,114 @@ var TomloprodModal = (function () {
 			}
 		}
 	}
+	
+	//////////// Apply individual configuration (with data attributes or param inside openModal) when the openModal method is called.
+	function applyIndividualConfig(params){
+		var attr = null;
+		for (var i = 0; i < TomloprodModal.modal.attributes.length; i++) {
+			attr = TomloprodModal.modal.attributes[i];
+			// If attribute nodeName starts with 'data-'
+			if (/^data-/.test(attr.nodeName)) {
+				switch(attr.nodeName){
+					case "data-tm-content": 
+						TomloprodModal.modal.getElementsByClassName('tm-content')[0].innerHTML = attr.nodeValue; 
+					break;
+					case "data-tm-title": 
+						TomloprodModal.modal.getElementsByClassName('tm-title-text')[0].innerHTML = attr.nodeValue; 
+					break;
+					case "data-tm-bgcolor":
+						addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-wrapper"), "backgroundColor", attr.nodeValue);
+					break;
+					case "data-tm-textcolor":
+						addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-content"), "color", attr.nodeValue);
+						addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-wrapper"), "color", attr.nodeValue);
+					break;		
+					case "data-tm-closetimer":
+						closeTimeout = setTimeout(TomloprodModal.closeModal, attr.nodeValue);
+					break;					
+					
+				}
+			}
+		}
+		if(typeof params !== "undefined"){
+			var configOption = null;
+			if (typeof params !== "undefined") {
+				for (configOption in params) {
+					if (typeof params[configOption] !== "undefined") {
+						switch (configOption) {
+							case "title":
+								TomloprodModal.modal.getElementsByClassName('tm-title-text')[0].innerHTML = params[configOption]; 
+							break;
+							case "content":
+								TomloprodModal.modal.getElementsByClassName('tm-content')[0].innerHTML = params[configOption]; 
+							break;
+							case "bgColor":
+								addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-wrapper"), "backgroundColor", params[configOption]);
+							break;
+							case "textColor":
+								addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-content"), "color", params[configOption]);
+								addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-wrapper"), "color", params[configOption]);
+							break;
+							case "closeTimer":
+								closeTimeout = setTimeout(TomloprodModal.closeModal, params[configOption]);
+							break;								
+						}
+					}
+				}
+			}
+		
+		}
+	}
+	
     return {
         modal: [],
         isOpen: false,
-        openModal: function (isModal) {
+
+        openModal: function (modalID, params) {
+		
             if (TomloprodModal.isOpen) {
                 TomloprodModal.closeModal();
-            }
-            TomloprodModal.modal = document.getElementById(isModal);
-            if (TomloprodModal.modal) {
-			
-				if(mainContainer){
-					addClass(mainContainer, "tm-effect");
-				}
+            }else{
 				
-				//////////// Individual configuration (data attributes)
-				var attr = null;
-				for (var i = 0; i < TomloprodModal.modal.attributes.length; i++) {
-					attr = TomloprodModal.modal.attributes[i];
-					// If attribute nodeName starts with 'data-'
-					if (/^data-/.test(attr.nodeName)) {
-						switch(attr.nodeName){
-							case "data-tm-content": 
-								TomloprodModal.modal.getElementsByClassName('tm-content')[0].innerHTML = attr.nodeValue; 
-							break;
-							case "data-tm-title": 
-								TomloprodModal.modal.getElementsByClassName('tm-title-text')[0].innerHTML = attr.nodeValue; 
-							break;
-							case "data-tm-bgcolor":
-								addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-wrapper"), "backgroundColor", attr.nodeValue);
-							break;
-							case "data-tm-textcolor":
-								addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-content"), "color", attr.nodeValue);
-                                addPropertyValueFromClasses(TomloprodModal.modal.getElementsByClassName("tm-wrapper"), "color", attr.nodeValue);
-							break;		
+				TomloprodModal.modal = document.getElementById(modalID);
+				if (TomloprodModal.modal) {
 
-							case "data-tm-closetimer":
-								closeTimeout = setTimeout(TomloprodModal.closeModal, attr.nodeValue);
-							break;					
-							
+					if(mainContainer){
+						addClass(mainContainer, "tm-effect");
+					}
+					
+					//////////// Individual configuration (data attributes) and params
+					applyIndividualConfig(params);
+					
+					if (draggable && hasClass(TomloprodModal.modal, "tm-draggable")) {
+						TomloprodModal.modal.setAttribute('onmousedown', 'TomloprodModal.startDragging(this,event);');
+						TomloprodModal.modal.setAttribute('onmouseup', 'TomloprodModal.stopDragging(this);');
+					}
+					addClass(TomloprodModal.modal, 'tm-showModal');
+					closeButton = TomloprodModal.modal.querySelector('.tm-closeButton');
+					
+					if (closeButton.addEventListener) {                
+						closeButton.addEventListener("click", TomloprodModal.closeModal, false);
+					} else if (closeButton.attachEvent) {         
+						closeButton.attachEvent("onclick", TomloprodModal.closeModal);
+					}
+					
+					if (closeOnOverlay && !removeOverlay) {
+						if (document.querySelector(".tm-overlay").addEventListener) {                
+							document.querySelector(".tm-overlay").addEventListener("click", TomloprodModal.closeModal, false);
+						} else if (document.querySelector(".tm-overlay").attachEvent) {         
+							document.querySelector(".tm-overlay").attachEvent("onclick", TomloprodModal.closeModal);
 						}
 					}
-				}					
-                if (draggable && hasClass(TomloprodModal.modal, "tm-draggable")) {
-                    TomloprodModal.modal.setAttribute('onmousedown', 'TomloprodModal.startDragging(this,event);');
-                    TomloprodModal.modal.setAttribute('onmouseup', 'TomloprodModal.stopDragging(this);');
-                }
-                addClass(TomloprodModal.modal, 'tm-showModal');
-                closeButton = TomloprodModal.modal.querySelector('.tm-closeButton');
-				
-			    if (closeButton.addEventListener) {                
-					closeButton.addEventListener("click", TomloprodModal.closeModal, false);
-				} else if (closeButton.attachEvent) {         
-					closeButton.attachEvent("onclick", TomloprodModal.closeModal);
-				}
-				
-                if (closeOnOverlay && !removeOverlay) {
-					if (document.querySelector(".tm-overlay").addEventListener) {                
-						document.querySelector(".tm-overlay").addEventListener("click", TomloprodModal.closeModal, false);
-					} else if (document.querySelector(".tm-overlay").attachEvent) {         
-						document.querySelector(".tm-overlay").attachEvent("onclick", TomloprodModal.closeModal);
+					if (closeOnEsc) {
+						document.onkeyup = getKey;
 					}
-                }
-                if (closeOnEsc) {
-                    document.onkeyup = getKey;
-                }
-                TomloprodModal.isOpen = true;
-                TomloprodModal.fire('opened');
-            } else if (showMessages) {
-                console.error("TomloprodModal: Cannot find the indicated modal window.");
-            }
+					TomloprodModal.isOpen = true;
+					TomloprodModal.fire('opened');
+				} else if (showMessages) {
+					console.error("TomloprodModal: Cannot find the indicated modal window.");
+				}
+			}
         },
         registerHandler: function (event, callback) {
             var added = true;
@@ -274,60 +314,105 @@ var TomloprodModal = (function () {
             }
         },
 		
+		create: function(params){
+		
+			if(uniqueName === null){			
+				uniqueName = "tm-create" + Math.floor(Date.now() / 1000) ;
+				//////////// Create default modal window
+				var defaultModalWindow = document.createElement("DIV");
+				defaultModalWindow.id = uniqueName;
+				defaultModalWindow.className = "tm-modal tm-effect tm-draggable";
+					//////////// Create wrapper 
+					var defaultModalWrapper = document.createElement("DIV");
+					defaultModalWrapper.className = "tm-wrapper";
+					defaultModalWindow.appendChild(defaultModalWrapper);
+						//////////// Title
+						var defaultModalTitle = document.createElement("DIV");
+						defaultModalTitle.className = "tm-title";
+						defaultModalWrapper.appendChild(defaultModalTitle);
+							//////////// Xbutton
+							var defaultModalTitleXButton = document.createElement("SPAN");
+							defaultModalTitleXButton.className = "tm-XButton tm-closeButton";
+							defaultModalTitle.appendChild(defaultModalTitleXButton);
+							//////////// Title h3
+							var defaultModalTitleH3 = document.createElement("H3");
+							defaultModalTitleH3.className = "tm-title-text";
+							defaultModalTitle.appendChild(defaultModalTitleH3);
+						//////////// Content
+						var defaultModalContent = document.createElement("DIV");
+						defaultModalContent.className = "tm-content";
+						defaultModalWrapper.appendChild(defaultModalContent);
+				document.body.appendChild(defaultModalWindow);
+			}
+		
+			TomloprodModal.openModal(uniqueName, params);
+		
+		},
+		
         start: function (params) {
+		
+		
 			
 			//////////// Create modal overlay
 			var overlay = document.createElement("DIV");
             overlay.className = "tm-overlay";
             document.body.appendChild(overlay);
 			
+			
+						
+            
+			//////////// Apply parameters
             var configOption = null;
-            if (typeof params !== "undefined") {
-                for (configOption in params) {
-                    if (typeof params[configOption] !== "undefined") {
-                        switch (configOption) {
-                            case "draggable":
-                                draggable = params[configOption];
-                                break;
-                            case "bgColor":
-                                addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "backgroundColor", params[configOption]);
-                                break;
-                            case "borderRadius":
-                                addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "-webkit-border-radius", params[configOption]);
-                                addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "-moz-border-radius", params[configOption]);
-                                addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "border-radius", params[configOption]);
-                                break;
-                            case "textColor":
-                                addPropertyValueFromClasses(document.getElementsByClassName("tm-content"), "color", params[configOption]);
-                                addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "color", params[configOption]);
-                                break;
-                            case "closeOnOverlay":
-                                closeOnOverlay = params[configOption];
-                                break;
-                            case "overlayColor":
-                                document.querySelector(".tm-overlay").style.backgroundColor = params[configOption];
-                                break;
-                            case "removeOverlay":
-                                if (params[configOption]) {
+			if (typeof params !== "undefined") {
+				for (configOption in params) {
+					if (typeof params[configOption] !== "undefined") {
+						switch (configOption) {
+							case "draggable":
+								draggable = params[configOption];
+								break;
+							case "bgColor":
+								addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "backgroundColor", params[configOption]);
+								break;
+							case "borderRadius":
+								addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "-webkit-border-radius", params[configOption]);
+								addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "-moz-border-radius", params[configOption]);
+								addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "border-radius", params[configOption]);
+								break;
+							case "textColor":
+								addPropertyValueFromClasses(document.getElementsByClassName("tm-content"), "color", params[configOption]);
+								addPropertyValueFromClasses(document.getElementsByClassName("tm-wrapper"), "color", params[configOption]);
+								break;
+							case "closeOnOverlay":
+								closeOnOverlay = params[configOption];
+								break;
+							case "overlayColor":
+								document.querySelector(".tm-overlay").style.backgroundColor = params[configOption];
+								break;
+							case "removeOverlay":
+								if (params[configOption]) {
 									removeOverlay = params[configOption];
-                                    document.querySelector(".tm-overlay").parentNode.removeChild(document.querySelector(".tm-overlay"));
-                                }
-                                break;
-                            case "showMessages":
-                                showMessages = params[configOption];
-                                break;
-                            case "closeOnEsc":
-                                closeOnEsc = params[configOption];
-                                break;
-                            case "idMainContainer":
+									overlay = document.querySelector(".tm-overlay");
+									if(overlay){
+										overlay.parentNode.removeChild(document.querySelector(".tm-overlay"));
+									}
+								}
+								break;
+							case "showMessages":
+								showMessages = params[configOption];
+								break;
+							case "closeOnEsc":
+								closeOnEsc = params[configOption];
+								break;
+							case "idMainContainer":
 								mainContainer = document.getElementById(params[configOption]);
-                                addClass(mainContainer, "tm-MainContainer");
-                                break;
+								addClass(mainContainer, "tm-MainContainer");
+								break;
 							
-                        }
-                    }
-                }
-            }
+						}
+					}
+				}
+			}
+			
 		    //////////// For all major browsers, except IE 8 and earlier
 		    if (document.addEventListener) {                
 				document.addEventListener("click", openOnClick);
