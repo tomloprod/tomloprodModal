@@ -1,5 +1,5 @@
 /*
- Tomloprod Modal 1.0.1
+ Tomloprod Modal 1.0.2
  
  The MIT License (MIT)
  
