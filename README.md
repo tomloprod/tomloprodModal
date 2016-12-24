@@ -17,6 +17,10 @@
 * `tm-effect`: If has this class shows fade effects on modal windows and scale effect on main container (*if exist*).
 * `tm-draggable`: Defines if the modal window can be dragged.
 * `tm-emptyOnClose`: When has this CSS class, the content of this element (*input or tag*) will be cleared.
+* `tm-trigger`: When an element has this CSS class, this element will be used for open the modal window indicated by his `data-tm-modal` attribute.
+
+
+
 
 
 Example of modal window:
